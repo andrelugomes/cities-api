@@ -71,5 +71,4 @@ class DistanceServiceTest {
 
     assertThat(distance).isEqualTo(12426.810463475855);
   }
-
 }
