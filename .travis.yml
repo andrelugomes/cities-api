@@ -1,0 +1,11 @@
+language: java
+
+os: linux
+dist: trusty
+jdk: oraclejdk8
+
+jobs:
+  include:
+    - stage: "Build project"
+      script:
+      - ./gradlew build -x test -x pmdMain -x pmdTest
