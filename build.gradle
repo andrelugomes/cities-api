@@ -19,6 +19,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.vladmihalcea:hibernate-types-52:2.9.8'
 	implementation 'org.postgresql:postgresql'
+	implementation 'org.flywaydb:flyway-core'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

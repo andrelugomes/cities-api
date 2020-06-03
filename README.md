@@ -113,6 +113,17 @@ select earth_distance(
 ```shell script
 wget https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
 ```
+## Migrations
+
+New Data base
+```shell script
+docker run --name dio-cities-db-2 -d -p 5432:5432 -e POSTGRES_USER=postgres_user_city -e POSTGRES_PASSWORD=super_password -e POSTGRES_DB=cities postgres
+```
+cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/pais.sql  src/main/resources/db/migration/V1__create_paises.sql  
+cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/estado.sql src/main/resources/db/migration/V2__create_estados.sql  
+cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/cidade.sql src/main/resources/db/migration/V3__create_cidades.sql
+
+
 
 ## CI
 

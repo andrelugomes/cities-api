@@ -1,4 +1,4 @@
-package com.github.andrelugomes.staties.entities;
+package com.github.andrelugomes.states.entities;
 
 import com.github.andrelugomes.countries.entities.Country;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;

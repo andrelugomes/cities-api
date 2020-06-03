@@ -1,14 +1,14 @@
-package com.github.andrelugomes.staties.resources;
+package com.github.andrelugomes.states.resources;
 
-import com.github.andrelugomes.staties.entities.State;
-import com.github.andrelugomes.staties.repositories.StateRepository;
+import com.github.andrelugomes.states.entities.State;
+import com.github.andrelugomes.states.repositories.StateRepository;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/staties")
+@RequestMapping("/states")
 public class StateResource {
 
   private final StateRepository repository;
@@ -18,7 +18,7 @@ public class StateResource {
   }
 
   @GetMapping
-  public List<State> staties() {
+  public List<State> states() {
     return repository.findAll();
   }
 }

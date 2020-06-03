@@ -8,4 +8,4 @@ jobs:
   include:
     - stage: "Build project"
       script:
-      - ./gradlew build -x test -x pmdMain -x pmdTest
+      - ./gradlew build
