@@ -28,7 +28,7 @@
 
     <rule ref="category/java/codestyle.xml/ShortVariable">
         <properties>
-            <property name="minimum" value="2" />
+            <property name="minimum" value="1" />
         </properties>
     </rule>
     <rule ref="category/java/codestyle.xml/ShortClassName">
