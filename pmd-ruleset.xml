@@ -6,7 +6,7 @@
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
 
     <description>
-        My custom PDM rules
+        Cities API PDM rules
     </description>
 
     <!-- Your rules will come here -->
@@ -28,7 +28,7 @@
 
     <rule ref="category/java/codestyle.xml/ShortVariable">
         <properties>
-            <property name="minimum" value="1" />
+            <property name="minimum" value="2" />
         </properties>
     </rule>
     <rule ref="category/java/codestyle.xml/ShortClassName">
