@@ -9,8 +9,8 @@ jobs:
     - stage: "Build project"
       script:
       - ./gradlew build
-      
+
 deploy:
   provider: heroku
-  api_key:
-    secure: $HEROKU_KEY
+  app: dio-cities-api
+  api_key: $HEROKU_KEY
