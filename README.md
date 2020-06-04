@@ -97,6 +97,10 @@ select earth_distance(
 
 * [DevCenter](https://devcenter.heroku.com/articles/getting-started-with-gradle-on-heroku)
 
+```shell script
+heroku create dio-cities-api --addons=heroku-postgresql
+```
+
 ## Code Quality
 
 ### PMD
@@ -127,8 +131,6 @@ cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/pais.sql  src/main/resource
 cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/estado.sql src/main/resources/db/migration/V2__create_estados.sql  
 cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/cidade.sql src/main/resources/db/migration/V3__create_cidades.sql
 ```
-
-
 
 ## CI
 
