@@ -118,6 +118,12 @@ heroku create dio-cities-api --addons=heroku-postgresql
 ```shell script
 wget https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
 ```
+
+## InMemory Database Testing
+
++ http://www.h2database.com/html/features.html
+
+
 ## Migrations
 
 + https://flywaydb.org/
@@ -138,5 +144,10 @@ cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/cidade.sql src/main/resourc
 + https://github.com/travis-ci/travis.rb#readme
 
 + https://docs.travis-ci.com/user/tutorial/
+
+#### extra
+
++ https://docs.travis-ci.com/user/conditional-builds-stages-jobs/
++ https://docs.travis-ci.com/user/deployment-v2/conditional
 
 + [Heroku Deployment](https://docs.travis-ci.com/user/deployment/heroku/)

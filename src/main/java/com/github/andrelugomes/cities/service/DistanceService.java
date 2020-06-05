@@ -6,7 +6,6 @@ import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toRadians;
 
-
 import com.github.andrelugomes.cities.entities.City;
 import com.github.andrelugomes.cities.repositories.CityRepository;
 import com.github.andrelugomes.utils.StringLocationUtils;
@@ -30,10 +29,10 @@ public class DistanceService {
   /**
    * 1st option
    *
-   * @param city1
-   * @param city2
-   * @param unit
-   * @return
+   * @param city1 Long
+   * @param city2 Long
+   * @param unit EarthRadius
+   * @return Double
    */
   public Double distanceUsingMath(final Long city1, final Long city2, final EarthRadius unit) {
     log.info("distanceUsingMath({}, {}, {})", city1, city2, unit);
@@ -96,8 +95,8 @@ public class DistanceService {
                                final double lng2, final EarthRadius earthRadius) {
     double lat = toRadians(lat2 - lat1);
     double lon = toRadians(lng2 - lon1);
-    double a = sin(lat / 2) * sin(lat / 2) +
-        cos(toRadians(lat1)) * cos(toRadians(lat2)) * sin(lon / 2) * sin(lon / 2);
+    double a = sin(lat / 2) * sin(lat / 2)
+        + cos(toRadians(lat1)) * cos(toRadians(lat2)) * sin(lon / 2) * sin(lon / 2);
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
     return earthRadius.getValue() * c;

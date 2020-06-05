@@ -43,5 +43,6 @@ pmd {
 
 checkstyle {
 	toolVersion "8.31"
+
 	configFile file("google_checks.xml")
 }
