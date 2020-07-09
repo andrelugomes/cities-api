@@ -25,7 +25,6 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation 'com.h2database:h2:1.4.200'
-
 }
 
 test {
@@ -43,6 +42,5 @@ pmd {
 
 checkstyle {
 	toolVersion "8.31"
-
 	configFile file("google_checks.xml")
 }
