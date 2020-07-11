@@ -1,5 +1,7 @@
 # Cities API
 
+Calculate distance between cities and find cities by radius
+
 ## Requirements
 
 * Linux
@@ -20,30 +22,20 @@
 docker run --name cities-db -d -p 5432:5432 -e POSTGRES_USER=postgres_user_city -e POSTGRES_PASSWORD=super_password -e POSTGRES_DB=cities postgres
 ```
 
-### Populate
-
-* [data](https://github.com/chinnonsantos/sql-paises-estados-cidades/tree/master/PostgreSQL)
-
-```shell script
-cd ~/workspace/sql-paises-estados-cidades/PostgreSQL
-
-docker run -it --rm --net=host -v $PWD:/tmp postgres /bin/bash
-
-psql -h localhost -U postgres_user_city cities -f /tmp/pais.sql
-psql -h localhost -U postgres_user_city cities -f /tmp/estado.sql
-psql -h localhost -U postgres_user_city cities -f /tmp/cidade.sql
-
-psql -h localhost -U postgres_user_city cities
-
-CREATE EXTENSION cube; 
-CREATE EXTENSION earthdistance;
-```
-
 * [Postgres Earth distance](https://www.postgresql.org/docs/current/earthdistance.html)
 * [earthdistance--1.0--1.1.sql](https://github.com/postgres/postgres/blob/master/contrib/earthdistance/earthdistance--1.0--1.1.sql)
 * [OPERATOR <@>](https://github.com/postgres/postgres/blob/master/contrib/earthdistance/earthdistance--1.1.sql)
 * [postgrescheatsheet](https://postgrescheatsheet.com/#/tables)
 * [datatype-geometric](https://www.postgresql.org/docs/current/datatype-geometric.html)
+* [Cube @>](https://www.postgresql.org/docs/current/cube.html)
+* [Cube Tutorial](https://www.postgresqltutorial.com/postgresql-cube/)
+
++ earth_distance(earth, earth)	return float8	
+Returns the great circle distance between two points on the surface of the Earth.
++ ll_to_earth(float8, float8) return earth	
+Returns the location of a point on the surface of the Earth given its latitude (argument 1) and longitude (argument 2) in degrees.
++ earth_box(earth, float8)	return cube	
+Returns a box suitable for an indexed search using the cube @> operator for points within a given great circle distance of a location. Some points in this box are further than the specified great circle distance from the location, so a second check using earth_distance should be included in the query.
 
 ### Access
 
@@ -55,7 +47,7 @@ psql -U postgres_user_city cities
 
 ### Query Earth Distance
 
-Point
+lat_lon as Point data type
 ```roomsql
 select ((select lat_lon from cidade where id = 4929) <@> (select lat_lon from cidade where id=5254)) as distance;
 ```
@@ -66,6 +58,35 @@ select earth_distance(
     ll_to_earth(-21.95840072631836,-47.98820114135742), 
     ll_to_earth(-22.01740074157715,-47.88600158691406)
 ) as distance;
+```
+
+### Query Earth Box
+
++ 30000 is the radius
+
+Get a Cube
+```roomsql
+SELECT earth_box(ll_to_earth(-21.95840072631836, -47.98820114135742), 30000) as cube;
+```
+The Cube contains? (ll_to_earth) 
+```roomsql
+SELECT earth_box(ll_to_earth(-21.95840072631836, -47.98820114135742), 30000) @> ll_to_earth(-21.95840072631836, -47.98820114135742) as contains;
+```
+
+All Cities Where The Cube contains ll_to_earth
+```roomsql
+SELECT cidade.id, cidade.nome, cidade.lat_lon 
+FROM cidade 
+WHERE earth_box(ll_to_earth(-21.95840072631836, -47.98820114135742), 30000) @> ll_to_earth(cidade.lat_lon[0],cidade.lat_lon[1]);
+```
+
+### Query Earth Box by Radius
+
+```roomsql
+SELECT cidade.id, cidade.nome, cidade.lat_lon 
+FROM cidade 
+WHERE earth_box(ll_to_earth(-21.95840072631836, -47.98820114135742), 30000) @> ll_to_earth(cidade.lat_lon[0],cidade.lat_lon[1]) 
+AND earth_distance(ll_to_earth(-21.95840072631836, -47.98820114135742), ll_to_earth(cidade.lat_lon[0],cidade.lat_lon[1])) < 30000;
 ```
 
 ## Spring Boot
@@ -127,16 +148,6 @@ wget https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/res
 ## Migrations
 
 + https://flywaydb.org/
-
-New Data base
-```shell script
-docker run --name dio-cities-db-2 -d -p 5432:5432 -e POSTGRES_USER=postgres_user_city -e POSTGRES_PASSWORD=super_password -e POSTGRES_DB=cities postgres
-```
-```shell script
-cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/pais.sql  src/main/resources/db/migration/V1__create_paises.sql  
-cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/estado.sql src/main/resources/db/migration/V2__create_estados.sql  
-cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/cidade.sql src/main/resources/db/migration/V3__create_cidades.sql
-```
 
 ## CI
 

@@ -1,6 +1,5 @@
 package com.github.andrelugomes.cities.entities;
 
-import com.github.andrelugomes.utils.StringLocationUtils;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +7,7 @@ import java.sql.SQLException;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
+import org.postgresql.geometric.PGpoint;
 import org.springframework.data.geo.Point;
 
 public class PointType implements UserType {
@@ -36,13 +36,18 @@ public class PointType implements UserType {
   public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session,
                             Object owner) throws HibernateException, SQLException {
     /* 1st */
-    Object object = rs.getObject(names[0]);
+    /*Object object = rs.getObject(names[0]);
     Double[] points = StringLocationUtils.transform(object.toString());
-    return new Point(points[0], points[1]);
+    return new Point(points[0], points[1]);*/
 
     /* 2nd */
     /*PGpoint value = (PGpoint) rs.getObject(names[0]);
     return new Point(value.x, value.y);*/
+
+    /* 3rd */
+    Object object = rs.getObject(names[0]);
+    PGpoint point = new PGpoint(object.toString());
+    return new Point(point.x, point.y);
   }
 
   @Override

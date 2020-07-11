@@ -10,7 +10,9 @@ import com.github.andrelugomes.cities.entities.City;
 import com.github.andrelugomes.cities.repositories.CityRepository;
 import com.github.andrelugomes.utils.StringLocationUtils;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.geo.Point;
@@ -19,8 +21,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class DistanceService {
 
+  private static Logger log = LoggerFactory.getLogger(DistanceService.class);
   private final CityRepository cityRepository;
-  Logger log = LoggerFactory.getLogger(DistanceService.class);
 
   public DistanceService(final CityRepository cityRepository) {
     this.cityRepository = cityRepository;
@@ -89,6 +91,24 @@ public class DistanceService {
     Point p2 = cities.get(1).getLocation();
 
     return cityRepository.distanceByCube(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+  }
+
+  /**
+   * Find cities nearby another
+   * @param id
+   * @param radius
+   * @return
+   */
+  public List<City> nearby(Long id, Double radius) {
+    log.info("nearby({}, {})", id, radius);
+    Optional<City> city = cityRepository.findById(id);
+
+    if (city.isPresent()) {
+      Point location = city.get().getLocation();
+      return cityRepository.citiesByRadius(location.getX(), location.getY(), radius);
+    }
+
+    return Collections.emptyList();
   }
 
   private double doCalculation(final double lat1, final double lon1, final double lat2,
