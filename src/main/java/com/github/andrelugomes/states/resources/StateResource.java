@@ -2,7 +2,8 @@ package com.github.andrelugomes.states.resources;
 
 import com.github.andrelugomes.states.entities.State;
 import com.github.andrelugomes.states.repositories.StateRepository;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ public class StateResource {
   }
 
   @GetMapping
-  public List<State> states() {
-    return repository.findAll();
+  public Page<State> states(final Pageable page) {
+    return repository.findAll(page);
   }
 }

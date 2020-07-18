@@ -10,7 +10,9 @@ import com.github.andrelugomes.cities.entities.City;
 import com.github.andrelugomes.cities.repositories.CityRepository;
 import com.github.andrelugomes.utils.StringLocationUtils;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.geo.Point;
@@ -100,5 +102,22 @@ public class DistanceService {
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
     return earthRadius.getValue() * c;
+  }
+
+  /**
+   * Serviço de proximidade por raio
+   * @param cityId
+   * @param radius
+   * @return
+   */
+  public List<City> nearby(Long cityId, Double radius) {
+    Optional<City> city = cityRepository.findById(cityId);
+
+    if (city.isPresent()) {
+      Point point = city.get().getLocation();
+
+      return cityRepository.citiesByRadius(point.getX(), point.getY(), radius);
+    }
+    return Collections.emptyList();
   }
 }

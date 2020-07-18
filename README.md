@@ -151,3 +151,13 @@ cp ~/workspace/sql-paises-estados-cidades/PostgreSQL/cidade.sql src/main/resourc
 + https://docs.travis-ci.com/user/deployment-v2/conditional
 
 + [Heroku Deployment](https://docs.travis-ci.com/user/deployment/heroku/)
+
+
+```roomsql
+
+```
+
+SELECT cidade.id, cidade.nome, cidade.lat_lon 
+FROM cidade 
+WHERE earth_box(ll_to_earth(-21.95840072631836, -47.98820114135742), 30000) @> ll_to_earth(cidade.lat_lon[0],cidade.lat_lon[1]) 
+AND earth_distance(ll_to_earth(-21.95840072631836, -47.98820114135742), ll_to_earth(cidade.lat_lon[0],cidade.lat_lon[1])) < 30000;
